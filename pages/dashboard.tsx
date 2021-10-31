@@ -43,24 +43,6 @@ export default function Dashboard() {
     }
   };
 
-  const handleRegenerateAuthClientSecret = async (client: ClientApp) => {
-    try {
-      await regenerateAuthClientSecret(session?.accessToken as string, client.client_id);
-      getAuthClients(session?.accessToken as string).then(setClients);
-      NotificationManager.success({
-        message: (
-          <Text fontWeight="semibold">{client.client_name} secret has changed</Text>
-        ),
-        options: {
-          lifetime: 3000,
-          isOpen: true,
-        },
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleDeleteAuthClient = async (client: ClientApp) => {
     try {
       await deleteAuthClient(session?.accessToken as string, client.client_id);
@@ -136,14 +118,6 @@ export default function Dashboard() {
                     onClick={() => handleEditAuthClient(client)}
                   >
                     Edit
-                  </ButtonMinimal>
-                  <ButtonMinimal
-                    marginLeft={3}
-                    border={1}
-                    color="complementary"
-                    onClick={() => handleRegenerateAuthClientSecret(client)}
-                  >
-                    Regenerate Secret
                   </ButtonMinimal>
                   <ButtonMinimal
                     marginLeft={3}

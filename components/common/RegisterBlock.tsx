@@ -5,9 +5,10 @@ const RegisterBlock = () => {
   return (
     <View backgroundColor="black">
       <Container
-        flexDirection="row"
+        flexDirection={['column','row']}
         contain="wide"
         paddingY={9}
+        paddingX={[5, 0]}
       >
         <View width={300}>
           <Image src="/login.svg" width={300} height={300} />

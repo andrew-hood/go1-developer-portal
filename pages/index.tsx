@@ -33,44 +33,45 @@ export default function Home() {
 
   return (
     <Layout title="Home">
-      <View>
-        <Container
-          contain="wide"
-          flexDirection="row"
-          paddingY={9}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <View flexBasis={0.5}>
-            <Heading fontFamily="mono" semanticElement="h2" visualHeadingLevel="Heading 2" marginBottom={4}>A better developer experience.</Heading>
-            <Heading fontFamily="mono" semanticElement="h2" visualHeadingLevel="Heading 2">Build great apps with Go1.</Heading>
-            {!session ? (
-              <View flexDirection="row" marginTop={8}>
-                <Link href="/login"><ButtonFilled color="complementary">Login</ButtonFilled></Link>
-                <ButtonMinimal border={2} color="white" marginLeft={3}>Documentation</ButtonMinimal>
-              </View>
-            ) : (
-              <View flexDirection="row" marginTop={8}>
-                <Link href="/dashboard"><ButtonFilled color="complementary">Dashboard</ButtonFilled></Link>
-              </View>
-            )}
-          </View>
-          <View>
-            <Image src="/get-started.png" width={500} height={500} />
-          </View>
-        </Container>
-      </View>
+      <Container
+        contain="wide"
+        flexDirection={['column-reverse','row']}
+        paddingY={[0, 9]}
+        paddingX={[5, 0]}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <View flexBasis={0.5}>
+          <Heading fontFamily="mono" semanticElement="h2" visualHeadingLevel="Heading 2" marginBottom={4}>A better developer experience.</Heading>
+          <Heading fontFamily="mono" semanticElement="h2" visualHeadingLevel="Heading 2">Build great apps with Go1.</Heading>
+          {!session ? (
+            <View flexDirection="row" marginTop={8}>
+              <Link href="/login"><ButtonFilled color="complementary">Login</ButtonFilled></Link>
+              <ButtonMinimal border={2} color="white" marginLeft={3}>Documentation</ButtonMinimal>
+            </View>
+          ) : (
+            <View flexDirection="row" marginTop={8}>
+              <Link href="/dashboard"><ButtonFilled color="complementary">Dashboard</ButtonFilled></Link>
+            </View>
+          )}
+        </View>
+        <View padding={[6, 0]} marginTop={[9, 0]}>
+          <Image src="/get-started.png" width={500} height={500} />
+        </View>
+      </Container>
 
       <View backgroundColor="black">
         <Container
-          flexDirection="row"
+          flexDirection={['column-reverse','row']}
           contain="wide"
           alignItems="center"
           paddingY={9}
+          paddingX={[5, 0]}
         >
           <View 
             width={600}
             borderRadius={4}
+            order={[2, 1]}
             overflow="hidden"
           >
             <CodeBlock
@@ -90,6 +91,7 @@ export default function Home() {
         <Container
           contain="wide"
           paddingY={9}
+          paddingX={[5, 0]}
         >
           <View marginX="auto" width={600} alignItems="center" marginBottom={6} css={{ textAlign: 'center' }}>
             <Heading fontFamily="mono" semanticElement="h2" visualHeadingLevel="Heading 2" marginBottom={4}>Use cases</Heading>
@@ -99,7 +101,7 @@ export default function Home() {
             {EXAMPLES.map((item, index) => (
               <View
                 key={index}
-                flexBasis={0.48}
+                flexBasis={[1, 0.48]}
                 height={200}
                 marginBottom={6}
                 padding={4}

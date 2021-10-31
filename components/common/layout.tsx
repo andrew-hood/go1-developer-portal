@@ -28,7 +28,7 @@ function Layout({ title, children }) {
               </Link>
             </View>
             {!session ? (
-              <View flexDirection="row">
+              <View flexDirection="row" display={['none','flex']}>
                 <ButtonMinimal color="white">Documentation</ButtonMinimal>
                 <ButtonMinimal color="white">Resources</ButtonMinimal>
                 <Link href="/register"><ButtonMinimal color="white">Register</ButtonMinimal></Link>

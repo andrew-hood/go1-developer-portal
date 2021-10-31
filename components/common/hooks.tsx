@@ -1,8 +1,8 @@
-import { ButtonFilled, ButtonMinimal, Field, Form, Heading, Modal, TextInput, View } from "@go1d/go1d";
+import { ButtonFilled, ButtonMinimal, Field, Form, Heading, Modal, NotificationManager, Text, TextInput, View } from "@go1d/go1d";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useModal } from "react-modal-hook";
-import { ClientApp, createAuthClient, getAuthClients, updateAuthClient } from "../../services/authService";
+import { ClientApp, createAuthClient, getAuthClients, regenerateAuthClientSecret, updateAuthClient } from "../../services/authService";
 
 const NewClientAuthForm = ({ hideModal, onCreate, client }: { hideModal, onCreate, client?: ClientApp }) => {
   const { data: session } = useSession();
@@ -16,6 +16,27 @@ const NewClientAuthForm = ({ hideModal, onCreate, client }: { hideModal, onCreat
       }
       
       getAuthClients(session?.accessToken as string).then(onCreate);
+      hideModal();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleRegenerateAuthClientSecret = async (client: ClientApp) => {
+    try {
+      await regenerateAuthClientSecret(session?.accessToken as string, client.client_id);
+      getAuthClients(session?.accessToken as string).then(onCreate);
+      
+      NotificationManager.success({
+        message: (
+          <Text fontWeight="semibold">{client.client_name} secret has changed</Text>
+        ),
+        options: {
+          lifetime: 3000,
+          isOpen: true,
+        },
+      });
+
       hideModal();
     } catch (err) {
       console.log(err);
@@ -42,14 +63,26 @@ const NewClientAuthForm = ({ hideModal, onCreate, client }: { hideModal, onCreat
         component={TextInput}
         required
       />
-      <View flexDirection="row" alignItems="center" marginTop={5}>
-        <ButtonFilled
-          type="submit"
-          color="complementary"
-        >
-          Save
-        </ButtonFilled>
-        <ButtonMinimal color="white" onClick={hideModal} marginLeft={3}>Cancel</ButtonMinimal>
+      <View flexDirection="row" alignItems="center" justifyContent="space-between" marginTop={5}>
+        <View flexDirection="row">
+          <ButtonFilled
+            type="submit"
+            color="complementary"
+          >
+            Save
+          </ButtonFilled>
+          <ButtonMinimal color="white" onClick={hideModal} marginLeft={3}>Cancel</ButtonMinimal>
+        </View>
+        {client && (
+          <ButtonMinimal
+            marginLeft={3}
+            border={1}
+            color="danger"
+            onClick={() => handleRegenerateAuthClientSecret(client)}
+          >
+            Regenerate Secret
+          </ButtonMinimal>
+        )}
       </View>
     </Form>
   )

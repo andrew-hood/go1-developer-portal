@@ -14,7 +14,7 @@ export default function Login() {
 
   return (
     <Layout title="Login">
-      <View width={400} marginX="auto" paddingY={9}>
+      <View width={400} marginX="auto" paddingY={9} paddingX={[5, 0]}>
         <Form initialValues={{}} onSubmit={handleLogin}>
           <Field
             label="Username"
