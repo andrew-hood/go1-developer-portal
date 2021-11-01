@@ -3,7 +3,7 @@ import IconCopy from "@go1d/go1d/build/components/Icons/Copy";
 import copy from "copy-to-clipboard";
 import { useState } from "react";
 
-const SecretText = ({ label, text }: { label: string, text: string }) => {
+const SecretText = ({ label, text, visible = false, ellipsis = true }: { label: string, text: string, visible?: boolean, ellipsis?: boolean }) => {
   const [hovering, setHovering] = useState<boolean>(false);
 
   const handleCopy = (label: string, text: string) => {
@@ -34,8 +34,8 @@ const SecretText = ({ label, text }: { label: string, text: string }) => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Text fontFamily="mono" ellipsis={true}>{hovering ? text : '● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●'}</Text>
-        <ButtonMinimal size="sm" icon={IconCopy} onClick={() => handleCopy(label, text)} />
+        <Text fontFamily="mono" ellipsis={ellipsis}>{visible || hovering ? text : '● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●'}</Text>
+        <ButtonMinimal zIndex={2} size="sm" icon={IconCopy} onClick={() => handleCopy(label, text)} />
       </View>
     </View>
   )

@@ -96,3 +96,19 @@ export async function deleteAuthClient(token: string, id: string): Promise<strin
     return null;
   }
 }
+
+export async function getClientAccessToken({ client_id, client_secret }: ClientApp): Promise<AuthToken> {
+  const url = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/oauth/token`;
+  const body = {
+    client_id,
+    client_secret,
+    grant_type: 'client_credentials'
+  }
+  
+  try {
+    const { data } = await axios.post(url, body);
+    return data;
+  } catch (err) {
+    return null;
+  }
+}

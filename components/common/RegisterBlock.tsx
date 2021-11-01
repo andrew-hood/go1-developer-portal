@@ -3,7 +3,7 @@ import { ButtonFilled, Container, Heading, Text, View } from "@go1d/go1d"
 
 const RegisterBlock = () => {
   return (
-    <View backgroundColor="black">
+    <View backgroundColor="faint">
       <Container
         flexDirection={['column','row']}
         contain="wide"

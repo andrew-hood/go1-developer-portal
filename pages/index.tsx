@@ -47,7 +47,7 @@ export default function Home() {
           {!session ? (
             <View flexDirection="row" marginTop={8}>
               <Link href="/login"><ButtonFilled color="complementary">Login</ButtonFilled></Link>
-              <ButtonMinimal border={2} color="white" marginLeft={3}>Documentation</ButtonMinimal>
+              <ButtonMinimal border={2} color="contrast" marginLeft={3}>Documentation</ButtonMinimal>
             </View>
           ) : (
             <View flexDirection="row" marginTop={8}>
@@ -60,7 +60,7 @@ export default function Home() {
         </View>
       </Container>
 
-      <View backgroundColor="black">
+      <View backgroundColor="faint">
         <Container
           flexDirection={['column-reverse','row']}
           contain="wide"
@@ -107,7 +107,7 @@ export default function Home() {
                 padding={4}
                 border={2}
                 borderRadius={3}
-                borderColor="white"
+                borderColor="contrast"
                 justifyContent="center"
                 alignItems="center"
                 css={{

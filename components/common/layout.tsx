@@ -9,7 +9,7 @@ function Layout({ title, children }) {
   return (
     <View
       backgroundColor="background"
-      color="white"
+      color="contrast"
     >
       <Head>
         <title>{title}</title>
@@ -20,6 +20,7 @@ function Layout({ title, children }) {
         <View 
           paddingY={4}
           paddingX={8}
+          backgroundColor="faint"
         >
           <Container contain="wide" flexDirection="row" alignItems="center" justifyContent="space-between">
             <View flexDirection="row" color="complementary">
@@ -29,9 +30,9 @@ function Layout({ title, children }) {
             </View>
             {!session ? (
               <View flexDirection="row" display={['none','flex']}>
-                <ButtonMinimal color="white">Documentation</ButtonMinimal>
-                <ButtonMinimal color="white">Resources</ButtonMinimal>
-                <Link href="/register"><ButtonMinimal color="white">Register</ButtonMinimal></Link>
+                <ButtonMinimal color="contrast">Documentation</ButtonMinimal>
+                <ButtonMinimal color="contrast">Resources</ButtonMinimal>
+                <Link href="/register"><ButtonMinimal color="contrast">Register</ButtonMinimal></Link>
                 <Link href="/login"><ButtonMinimal border={1} color="complementary">Login</ButtonMinimal></Link>
               </View>
             ) : (

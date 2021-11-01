@@ -71,7 +71,7 @@ const NewClientAuthForm = ({ hideModal, onCreate, client }: { hideModal, onCreat
           >
             Save
           </ButtonFilled>
-          <ButtonMinimal color="white" onClick={hideModal} marginLeft={3}>Cancel</ButtonMinimal>
+          <ButtonMinimal color="contrast" onClick={hideModal} marginLeft={3}>Cancel</ButtonMinimal>
         </View>
         {client && (
           <ButtonMinimal
@@ -92,8 +92,8 @@ const useModalWithClient = (onCreate) => {
   const [client, setClient] = useState<ClientApp>(null);
 
   const [showModal, hideModal] = useModal(() => (
-    <Modal isOpen color="white" contentPadding={7}>
-      <Heading semanticElement="h3" visualHeadingLevel="Heading 3" color="white" marginBottom={6}>Client App</Heading>
+    <Modal isOpen color="contrast" contentPadding={7}>
+      <Heading semanticElement="h3" visualHeadingLevel="Heading 3" color="contrast" marginBottom={6}>Client App</Heading>
       <NewClientAuthForm hideModal={hideModal} onCreate={onCreate} client={client} />
     </Modal>
   ), [client]);
