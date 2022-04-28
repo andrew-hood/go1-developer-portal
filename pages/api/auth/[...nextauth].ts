@@ -12,6 +12,7 @@ export default NextAuth({
         const token = await postLogin(credentials).catch(() => null);
         return {
           email: credentials.username,
+          instance: credentials.instance,
           ...token
         };
       },
@@ -38,16 +39,27 @@ export default NextAuth({
       return true
     },
     async jwt({ token, user, account, profile, isNewUser }) {
+      console.log('user', user);
+
+      if (user?.instance) {
+        token.instance = user.instance;
+      }
       if (user?.access_token) {
         token.accessToken = user.access_token;
       }
+      console.log('token', token);
       return token;
     },
     async session({ session, token }) {
+      console.log('token 1', token);
+      
+      if (token?.instance) {
+        session.portal = token.instance;
+      }
       if (token?.accessToken) {
-        // Add property to session, like an access_token from a provider
         session.accessToken = token.accessToken;
       }
+      console.log(session);
       return session;
     },
   },

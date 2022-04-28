@@ -3,6 +3,7 @@ import axios from "axios";
 export interface UserCredentials {
   username: string;
   password: string;
+  instance?: string;
 }
 
 export interface AuthToken {
@@ -23,13 +24,26 @@ export interface ClientApp {
 
 export async function postLogin(credentials: UserCredentials): Promise<AuthToken> {
   try {
+    let jwt = null;
+    if (credentials.instance) {
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/login`, credentials);
+      console.log(data);
+      jwt = data.jwt;
+    }
+    
     const { data } = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_API_URL}/oauth/token`, {
       scope: 'app.read app.write',
       client_id: process.env.CLIENT_ID,
-      grant_type: 'password',
-      username: credentials.username,
-      password: credentials.password,
+      grant_type: jwt ? 'go1_jwt' : 'password',
+      ...( jwt ? {
+        jwt,
+        portal_name: credentials.instance,
+      } : {
+        username: credentials.username,
+        password: credentials.password,
+      })
     });
+    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -38,6 +52,7 @@ export async function postLogin(credentials: UserCredentials): Promise<AuthToken
 }
 
 export async function getAuthClients(token: string, portalName?: string): Promise<ClientApp[]> {
+  console.log(portalName);
   const url = `${process.env.NEXT_PUBLIC_AUTH_API_URL}/client?limit=50&offset=0${portalName ? `&portal_name=${portalName}` : ''}`;
   const headers = { Authorization: `Bearer ${token}` };
   

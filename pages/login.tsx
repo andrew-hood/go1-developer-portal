@@ -1,47 +1,104 @@
-import { signIn } from "next-auth/react"
-import { ButtonFilled, Form, Field, Label, TextInput, View } from '@go1d/go1d'
-import IconGo1Logo from "@go1d/go1d/build/components/Icons/Go1Logo";
-import Layout from "../components/common/layout";
-import RegisterBlock from '../components/common/RegisterBlock';
+import { signIn, useSession } from "next-auth/react";
+import {
+  ButtonFilled,
+  Form,
+  Field,
+  TextInput,
+  View,
+  ButtonMinimal,
+  foundations,
+} from "@go1d/go1d";
+import Layout from "../components/layout/Layout";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/router";
+
+const coverImage =
+  "https://images.unsplash.com/photo-1631477076114-9123f721b9dc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2670&q=80";
 
 export default function Login() {
-
-  const image = 'https://images.unsplash.com/photo-1630283018262-d0df4afc2fef?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80';
+  const { status } = useSession();
+  const { push } = useRouter();
+  const [portalField, showPortalField] = useState<boolean>(false);
 
   const handleLogin = (values) => {
-    signIn('credentials', values);
-  }
+    signIn("credentials", values);
+  };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      push("/dashboard");
+    }
+  }, [status]);
 
   return (
-    <Layout title="Login">
-      <View width={400} marginX="auto" paddingY={9} paddingX={[5, 0]}>
-        <Form initialValues={{}} onSubmit={handleLogin}>
-          <Field
-            label="Username"
-            name="username"
-            component={TextInput}
-            required
-          />
-          <Field
-            label="Password"
-            name="password"
-            component={TextInput}
-            type="password"
-            required
-          />
-          <View flexDirection="row">
+    <Layout title="Login" withSidebar={false} withHeader={false}>
+      <View flexDirection="row" height="100vh">
+        <View
+          flexBasis={0.55}
+          height="100%"
+          position="relative"
+          css={{
+            "&:before": {
+              content: '" "',
+              display: "block",
+              position: "absolute",
+              left: 0,
+              top: 0,
+              width: "100%",
+              height: "100%",
+              backgroundImage: `url(${coverImage})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundColor: foundations.colors.accent,
+              backgroundBlendMode: "screen",
+            },
+          }}
+        />
+        <View flexBasis={0.45} paddingX={[3, 6, 9]} paddingTop={8}>
+          <Image src="/login.svg" width={250} height={250} />
+          <Form initialValues={{}} onSubmit={handleLogin}>
+            <Field
+              label="Username"
+              name="username"
+              size="lg"
+              component={TextInput}
+              required
+            />
+            <Field
+              label="Password"
+              name="password"
+              size="lg"
+              component={TextInput}
+              type="password"
+              required
+            />
+            {!portalField ? (
+              <ButtonMinimal onClick={() => showPortalField(true)}>
+                Add portal
+              </ButtonMinimal>
+            ) : (
+              <View backgroundColor="faint" padding={5}>
+                <Field
+                  label="Portal URL"
+                  name="instance"
+                  component={TextInput}
+                  description="Only enter a portal for managing your portal apps"
+                />
+              </View>
+            )}
             <ButtonFilled
               type="submit"
-              color="complementary"
-              marginTop={3}
+              color="accent"
+              size="lg"
+              marginTop={5}
+              disabled={status === "loading"}
             >
               Login
             </ButtonFilled>
-          </View>
-        </Form>
+          </Form>
+        </View>
       </View>
-      
-      <RegisterBlock />
     </Layout>
-  )
+  );
 }
